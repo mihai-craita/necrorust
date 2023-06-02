@@ -8,6 +8,7 @@ pub mod character;
 pub mod game;
 pub mod reward;
 pub mod dungeon;
+pub mod fight;
 
 fn main() {
     let mut dungeon = new_dungeon();
@@ -33,25 +34,13 @@ fn main() {
             choose_reward(&mut hero);
         }
 
-        // fight loop
-        let mut turn = 0;
-        loop {
-            turn = turn + 1;
-
-            monster.attack(&mut hero);
-            if hero.hp() <= 0 {
-                println!("Game over you lost!");
-                break;
-            }
-            hero.attack(&mut monster);
-            println!("Turn {}: {} -> {} \n", turn, hero, monster);
-            if monster.is_dead() {
-                hero.add_experience(monster.experience);
-                dungeon.next_turn();
-                println!("Dungeon Turn: {} - You defeated monster {}!\n", dungeon.turn, monster.name());
-                break;
-            }
-            std::thread::sleep(std::time::Duration::from_millis(500));
+        fight::fight::<Character>(&mut monster, &mut hero);
+        if hero.is_dead() {
+            println!("Game over you lost!");
+        } else if monster.is_dead() {
+            hero.add_experience(monster.experience);
+            dungeon.next_turn();
+            println!("Dungeon Turn: {} - You defeated monster {}!\n", dungeon.turn, monster.name());
         }
     }
 }

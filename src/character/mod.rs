@@ -70,7 +70,7 @@ impl HasLife for Character {
 }
 
 impl Attacker for Character {
-    fn attack(&self, oponnent: &mut (impl HasLife + HasName)) {
+    fn attack(&self, oponnent: &mut Character) {
         let attack = rand::thread_rng().gen_range(self.min_attack..=self.max_attack);
         oponnent.hit(attack);
         println!("⚔️  -> {} deals {} damage to {} (hp {})", self.name, attack.to_string().red(), oponnent.name(), oponnent.hp());
@@ -96,8 +96,8 @@ pub trait HasName {
     fn name(&self) -> &ColoredString;
 }
 
-pub trait Attacker {
-    fn attack(&self, opponent: &mut (impl HasLife + HasName));
+pub trait Attacker: HasLife + HasName {
+    fn attack(&self, opponent: &mut Self);
 }
 
 
