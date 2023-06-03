@@ -1,4 +1,4 @@
-use crate::character::{Character, HasLife};
+use crate::character::Character;
 
 pub trait Reward {
     fn display(&self) -> String;

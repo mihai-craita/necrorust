@@ -26,54 +26,45 @@ impl Character {
                 )
     }
     pub fn add_min_attack(&mut self, a: i32) {
-        self.min_attack = self.min_attack + a;
+        self.min_attack += a;
     }
     pub fn add_max_attack(&mut self, a: i32) {
-        self.max_attack = self.max_attack + a;
+        self.max_attack += a;
     }
     pub fn add_max_health(&mut self, a: i32) {
-        self.max_hp = self.max_hp + a;
+        self.max_hp += a;
     }
     pub fn add_experience(&mut self, xp: usize) {
-        self.experience = self.experience + xp;
+        self.experience += xp;
     }
-}
-
-impl HasName for Character {
-    fn name(&self) -> &ColoredString {
-        &self.name
-    }
-}
-
-impl HasLife for Character {
     fn hp(&self) -> i32 {
         self.hp
     }
-    fn is_alive(&self) -> bool {
+    pub fn is_alive(&self) -> bool {
         self.hp > 0
     }
-    fn is_dead(&self) -> bool {
+    pub fn is_dead(&self) -> bool {
         self.hp <= 0
     }
     fn hit(&mut self, attack: i32) {
-        self.hp = self.hp - attack;
+        self.hp -= attack;
     }
-    fn full_heal(&mut self) {
+    pub fn full_heal(&mut self) {
         self.hp = self.max_hp;
     }
-    fn heal(&mut self, h: i32) {
-        self.hp = self.hp + h;
+    pub fn heal(&mut self, h: i32) {
+        self.hp += h;
         if self.hp > self.max_hp {
             self.hp = self.max_hp;
         }
     }
-}
-
-impl Attacker for Character {
-    fn attack(&self, oponnent: &mut Character) {
+    pub fn attack(&self, oponnent: &mut Character) {
         let attack = rand::thread_rng().gen_range(self.min_attack..=self.max_attack);
         oponnent.hit(attack);
         println!("⚔️  -> {} deals {} damage to {} (hp {})", self.name, attack.to_string().red(), oponnent.name(), oponnent.hp());
+    }
+    pub fn name(&self) -> &ColoredString {
+        &self.name
     }
 }
 
@@ -82,24 +73,6 @@ impl Display for Character {
         write!(f, "{} hp: {} / {} ", self.name, self.hp, self.max_hp)
     }
 }
-
-pub trait HasLife {
-    fn hp(&self) -> i32;
-    fn is_alive(&self) -> bool;
-    fn is_dead(&self) -> bool;
-    fn hit(&mut self, attack: i32);
-    fn heal(&mut self, heal: i32);
-    fn full_heal(&mut self);
-}
-
-pub trait HasName {
-    fn name(&self) -> &ColoredString;
-}
-
-pub trait Attacker: HasLife + HasName {
-    fn attack(&self, opponent: &mut Self);
-}
-
 
 // "Dark Drakes": Small, winged dragon-like creatures that lurk in the shadows and spew poisonous fumes, disorienting their victims.
 

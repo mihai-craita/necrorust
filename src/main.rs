@@ -34,7 +34,7 @@ fn main() {
             choose_reward(&mut hero);
         }
 
-        fight::fight::<Character>(&mut monster, &mut hero);
+        fight::fight(&mut monster, &mut hero);
         if hero.is_dead() {
             println!("Game over you lost!");
         } else if monster.is_dead() {
@@ -58,7 +58,7 @@ Choose one reward:
 -----------------");
         let mut i = 0;
         for reward in rewards.iter() {
-            i = i+1;
+            i += 1;
             println!("{} {}", i, reward.display());
         };
 

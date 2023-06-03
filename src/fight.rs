@@ -1,10 +1,6 @@
-use std::fmt::Display;
+use crate::character::Character;
 
-use crate::character::{HasLife, Attacker, HasName};
-
-pub fn fight<T>(first_contender: &mut T, second_contender: &mut T)
-where
-T: HasLife + Attacker + HasName + Display
+pub fn fight(first_contender: &mut Character, second_contender: &mut Character)
 {
     // fight loop
     let mut turn = 0;
