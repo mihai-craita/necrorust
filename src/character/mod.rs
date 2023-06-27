@@ -101,14 +101,14 @@ impl Display for Character {
 
 pub fn new_monster(name: &str) -> Character {
     match name {
-        "Gloomhound"           => new_character(20, 25, 2,  4,  String::from("Gloomhound").red(), 7),
-        "Dark Drakes"          => new_character(30, 30, 3, 5, String::from("Dark Drakes").red(), 10),
-        "Deathsworn Rats"      => new_character(20, 20, 1, 4, String::from("Deathsworn Rats").red(), 6),
-        "Shadow Serpents"      => new_character(40, 40, 1, 3, String::from("Shadow Serpents").red(), 10),
-        "Gravewalker"          => new_character(40, 40, 1, 4, String::from("Gravewalker").red(), 12),
-        "Soul Trappers"        => new_character(20, 20, 3, 8, String::from("Soul Trappers").red(), 8),
-        "Gorefang the Ravager" => new_character(100, 100, 5, 20, String::from("Gorefang the Ravager").red(), 33),
-        _ => new_character(30, 30, 2, 4, String::from("unknown ghost").red(), 0)
+        "Gloomhound"           => new_character(20, 25, 0, 2,  4,  String::from("Gloomhound").red(), 7),
+        "Dark Drakes"          => new_character(30, 30, 0, 3, 5, String::from("Dark Drakes").red(), 10),
+        "Deathsworn Rats"      => new_character(20, 20, 0, 1, 4, String::from("Deathsworn Rats").red(), 6),
+        "Shadow Serpents"      => new_character(40, 40, 0, 1, 3, String::from("Shadow Serpents").red(), 10),
+        "Gravewalker"          => new_character(40, 40, 0, 1, 4, String::from("Gravewalker").red(), 12),
+        "Soul Trappers"        => new_character(20, 20, 0, 3, 8, String::from("Soul Trappers").red(), 8),
+        "Gorefang the Ravager" => new_character(100, 100, 2, 5, 20, String::from("Gorefang the Ravager").red(), 33),
+        _ => new_character(30, 30, 0, 2, 4, String::from("unknown ghost").red(), 0)
     }
 }
 
@@ -128,10 +128,11 @@ pub fn new_hero() -> Character {
 pub fn new_character(
     hp: i32,
     max_hp: i32,
+    armor: i32,
     min_attack: i32,
     max_attack: i32,
     name: ColoredString,
     xp: usize
     ) -> Character {
-    Character { hp, armor: 0, max_hp, min_attack, max_attack, magic_attack: 0, name, experience: xp}
+    Character { hp, max_hp, armor, min_attack, max_attack, magic_attack: 0, name, experience: xp}
 }

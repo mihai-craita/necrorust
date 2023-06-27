@@ -32,6 +32,10 @@ impl Dungeon {
         self.turn == self.max_turn
     }
 
+    pub fn ended(&self) -> bool {
+        self.turn > self.max_turn
+    }
+
     pub fn show_info(&self) {
             println!("
 Entering the {}.

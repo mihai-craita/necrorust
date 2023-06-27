@@ -42,6 +42,10 @@ fn main() {
             hero.add_experience(monster.experience);
             dungeon.next_turn();
             println!("Dungeon Turn: {} - You defeated monster {}!\n", dungeon.turn, monster.name());
+            if dungeon.ended() {
+                println!("Dungeon ended!");
+                println!("You won!");
+            }
         }
     }
 }
@@ -81,7 +85,6 @@ Choose one reward:
                         if val > 3 {
                             println!("You choose a wrong reward choose between 1 or 2 or 3");
                         } else {
-                            println!("Great reward {}", val);
                             let val: usize = val - 1;
                             let r = rewards.get(val);
                             match r {
