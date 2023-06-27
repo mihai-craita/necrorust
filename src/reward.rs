@@ -50,3 +50,33 @@ impl Reward for HealGainMinAttackMaxAttack {
         hero.add_max_attack(self.max_attack); 
     }
 }
+
+pub struct HealGainMaxAttack {
+    pub heal: i32,
+    pub max_attack: i32
+}
+
+impl Reward for HealGainMaxAttack {
+    fn display(&self) -> String {
+        format!("heal {}, +{} max attack", self.heal, self.max_attack)
+    }
+    fn reward_hero(&self, hero: &mut Character) {
+        hero.heal(self.heal);
+        hero.add_max_attack(self.max_attack); 
+    }
+}
+
+pub struct HealGainMinAttack {
+    pub heal: i32,
+    pub min_attack: i32
+}
+
+impl Reward for HealGainMinAttack {
+    fn display(&self) -> String {
+        format!("heal {}, +{} min attack", self.heal, self.min_attack)
+    }
+    fn reward_hero(&self, hero: &mut Character) {
+        hero.heal(self.heal);
+        hero.add_min_attack(self.min_attack); 
+    }
+}

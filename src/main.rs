@@ -3,6 +3,7 @@ use std::io;
 use crate::character::*;
 use crate::dungeon::new_dungeon;
 use crate::reward::*;
+use rand::seq::SliceRandom;
 
 pub mod character;
 pub mod game;
@@ -46,14 +47,20 @@ fn main() {
 }
 
 fn choose_reward(hero: &mut Character) {
-    let rewards: Vec<Box<dyn Reward>> = vec![
+    let possible_rewards: Vec<Box<dyn Reward>> = vec![
         Box::new(FullHeal {}),
         Box::new(HealGainMaxHpMaxAttack{ heal: 5, max_hp: 5, max_attack: 1}),
-        Box::new(HealGainMinAttackMaxAttack{ heal: 10, min_attack: 1, max_attack: 1}),
+        Box::new(HealGainMinAttackMaxAttack{ heal: 8, min_attack: 1, max_attack: 1}),
+        Box::new(HealGainMaxAttack{ heal: 8, max_attack: 2}),
+        Box::new(HealGainMinAttack{ heal: 8, min_attack: 2}),
     ];
+
+    let mut rng = &mut rand::thread_rng();
+    let rewards: Vec<&Box<dyn Reward>> = possible_rewards.choose_multiple(&mut rng, 3).collect();
 
     loop {
         println!("
+-----------------
 Choose one reward:
 -----------------");
         let mut i = 0;

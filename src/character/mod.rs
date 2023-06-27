@@ -10,6 +10,8 @@ pub struct Character {
     max_hp: i32,
     min_attack: i32,
     max_attack: i32,
+    magic_attack: i32,
+    armor: i32,
     name: ColoredString,
     pub experience: usize,
 }
@@ -27,6 +29,11 @@ impl Character {
     }
     pub fn add_min_attack(&mut self, a: i32) {
         self.min_attack += a;
+        if self.min_attack > self.max_attack {
+            let diff = self.min_attack - self.max_attack;
+            self.min_attack = self.max_attack;
+            self.max_attack += diff;
+        }
     }
     pub fn add_max_attack(&mut self, a: i32) {
         self.max_attack += a;
@@ -47,7 +54,10 @@ impl Character {
         self.hp <= 0
     }
     fn hit(&mut self, attack: i32) {
-        self.hp -= attack;
+        let phisical_attack = attack - self.armor;
+        if phisical_attack > 0 {
+            self.hp -= phisical_attack;
+        }
     }
     pub fn full_heal(&mut self) {
         self.hp = self.max_hp;
@@ -61,6 +71,7 @@ impl Character {
     pub fn attack(&self, oponnent: &mut Character) {
         let attack = rand::thread_rng().gen_range(self.min_attack..=self.max_attack);
         oponnent.hit(attack);
+        oponnent.hp -= self.magic_attack;
         println!("⚔️  -> {} deals {} damage to {} (hp {})", self.name, attack.to_string().red(), oponnent.name(), oponnent.hp());
     }
     pub fn name(&self) -> &ColoredString {
@@ -104,9 +115,11 @@ pub fn new_monster(name: &str) -> Character {
 pub fn new_hero() -> Character {
     Character {
         hp: 100,
+        armor: 0,
         max_hp: 100,
         min_attack: 2,
         max_attack: 5,
+        magic_attack: 0,
         name: String::from("Lyra").bold().bright_blue(),
         experience: 0
     }
@@ -120,5 +133,5 @@ pub fn new_character(
     name: ColoredString,
     xp: usize
     ) -> Character {
-    Character { hp, max_hp, min_attack, max_attack, name, experience: xp}
+    Character { hp, armor: 0, max_hp, min_attack, max_attack, magic_attack: 0, name, experience: xp}
 }
